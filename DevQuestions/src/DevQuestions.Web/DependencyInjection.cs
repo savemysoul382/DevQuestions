@@ -1,4 +1,7 @@
 ﻿using DevQuestions.Application;
+using DevQuestions.Application.FullTextSearch;
+using DevQuestions.Infrastructure.ElasticSearch;
+using DevQuestions.Infrastructure.Postgres;
 
 namespace DevQuestions.Web
 {
@@ -7,7 +10,9 @@ namespace DevQuestions.Web
         public static IServiceCollection AddProgramDependencies(this IServiceCollection services)
         {
             return services.AddWebDependencies()
-                .AddApplication();
+                .AddApplication()
+                .AddPostgresInfrastructure()
+                .AddSearchProvider();
         }
 
         private static IServiceCollection AddWebDependencies(this IServiceCollection services)
@@ -15,6 +20,12 @@ namespace DevQuestions.Web
             services.AddControllers();
             services.AddOpenApi();
 
+            return services;
+        }
+
+        private static IServiceCollection AddSearchProvider(this IServiceCollection services)
+        {
+            services.AddScoped<ISearchProvider, ElasticSearchProvider>();
             return services;
         }
     }
