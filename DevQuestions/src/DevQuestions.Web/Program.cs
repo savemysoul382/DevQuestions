@@ -1,6 +1,14 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using DevQuestions.Web;
+using DevQuestions.Web.Middlewares;
+using DevQuestions.Web.Seeders;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddProgramDependencies();
 
 var app = builder.Build();
+
+app.UseExceptionMiddleware();
 
 if (app.Environment.IsDevelopment())
 {
@@ -9,5 +17,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
-
+await app.UseSeedersAsync();
 app.Run();

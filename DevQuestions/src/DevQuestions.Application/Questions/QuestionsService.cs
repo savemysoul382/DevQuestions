@@ -1,8 +1,12 @@
-﻿using DevQuestions.Contracts.Questions;
+﻿using DevQuestions.Application.Extensions;
+using DevQuestions.Application.FullTextSearch;
+using DevQuestions.Application.Questions.Fails.Exceptions;
+using DevQuestions.Contracts.Questions;
 using DevQuestions.Domain.Questions;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
+using Shared;
 
 namespace DevQuestions.Application.Questions;
 
@@ -11,12 +15,18 @@ public class QuestionsService : IQuestionsService
     private readonly IQuestionsRepository _questionsRepository;
     private readonly ILogger<QuestionsService> _logger;
     private readonly IValidator<CreateQuestionDto> _validator;
+    private readonly ISearchProvider _searchProvider;
 
-    public QuestionsService(IQuestionsRepository questionsRepository, ILogger<QuestionsService> logger, IValidator<CreateQuestionDto> validator)
+    public QuestionsService(
+        IQuestionsRepository questionsRepository,
+        IValidator<CreateQuestionDto> validator,
+        ISearchProvider searchProvider,
+        ILogger<QuestionsService> logger)
     {
         _questionsRepository = questionsRepository;
-        _logger = logger;
         _validator = validator;
+        _searchProvider = searchProvider;
+        _logger = logger;
     }
 
     public async Task<Guid> Create(CreateQuestionDto questionDto, CancellationToken cancellationToken)
@@ -25,7 +35,9 @@ public class QuestionsService : IQuestionsService
         ValidationResult validationResult = await _validator.ValidateAsync(instance: questionDto, cancellation: cancellationToken);
         if (!validationResult.IsValid)
         {
-            throw new ValidationException(errors: validationResult.Errors);
+            var errors = validationResult.ToErrors();
+
+            throw new QuestionValidationException(errors: errors);
         }
 
         // валидация бизнес логики
@@ -34,8 +46,10 @@ public class QuestionsService : IQuestionsService
 
         if (openUserQuestionsCount >= 3)
         {
-            throw new Exception("Пользователь не может открыть больше 3 вопросов");
+            throw new ToManyQuestionsException();
         }
+
+        var existedQuestion = await _questionsRepository.GetByIdAsync(questionId: Guid.Empty, cancellationToken: cancellationToken);
 
         // создание сущности Question
         var questionId = Guid.NewGuid();
@@ -53,35 +67,39 @@ public class QuestionsService : IQuestionsService
 
         // логирование об успешном или неуспешном сохранении
         _logger.LogInformation("Question with ID {QuestionId} created successfully.", questionId);
+
+        await _searchProvider.IndexQuestionAsync(question: question);
         return questionId;
     }
 
-    //public async Task Update(
-    //    Guid questionId,
-    //    UpdateQuestionDto request,
-    //    CancellationToken cancellationToken)
-    //{
-    //    await Task.Delay(500);
-    //}
+    /*
+    public async Task Update(
+        Guid questionId,
+        UpdateQuestionDto request,
+        CancellationToken cancellationToken)
+    {
+        await Task.Delay(500);
+    }
 
-    //public async Task Delete(Guid questionId, CancellationToken cancellationToken)
-    //{
-    //    await Task.Delay(500);
-    //}
+    public async Task Delete(Guid questionId, CancellationToken cancellationToken)
+    {
+        await Task.Delay(500);
+    }
 
-    //public async Task SelectSolution(
-    //    Guid questionId,
-    //    Guid answerId,
-    //    CancellationToken cancellationToken)
-    //{
-    //    await Task.Delay(500);
-    //}
+    public async Task SelectSolution(
+        Guid questionId,
+        Guid answerId,
+        CancellationToken cancellationToken)
+    {
+        await Task.Delay(500);
+    }
 
-    //public async Task AddAnswer(
-    //    Guid questionId,
-    //    AddAnswerDto request,
-    //    CancellationToken cancellationToken)
-    //{
-    //    await Task.Delay(500);
-    //}
+    public async Task AddAnswer(
+        Guid questionId,
+        AddAnswerDto request,
+        CancellationToken cancellationToken)
+    {
+        await Task.Delay(500);
+    }
+    */
 }
