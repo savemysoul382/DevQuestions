@@ -4,18 +4,17 @@ public class Question
 {
     public Guid Id { get; set; }
 
-    public required String Title { get; set; } = String.Empty;
+    public required string Title { get; set; } = string.Empty;
 
-    public required String Text { get; set; } = String.Empty;
+    public required string Text { get; set; } = string.Empty;
 
     public required Guid UserId { get; set; }
 
     public Guid? ScreenshotId { get; set; }
 
-    List<Answer> Answers { get; set; } = [];
+    public List<Answer> Answers { get; set; } = [];
 
     public Answer? Solution { get; set; }
 
     private List<Guid> Tags { get; set; } = [];
-
 }
