@@ -1,19 +1,27 @@
-using DevQuestions.Contracts;
+﻿using DevQuestions.Application.Questions;
+using DevQuestions.Contracts.Questions;
 using Microsoft.AspNetCore.Mvc;
 
 // ReSharper disable InconsistentNaming
-namespace DevQuestions.Presenters.Controllers;
+namespace DevQuestions.Presenters.Questions;
 
 [ApiController]
 [Route("[controller]")]
 public class QuestionsController : ControllerBase
 {
+    private readonly IQuestionsService _questionService;
+
+    public QuestionsController(IQuestionsService questionService)
+    {
+        _questionService = questionService;
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateQuestionDto request, CancellationToken cancellationToken)
     {
-        await Task.Delay(500);
+        Guid questionId = await _questionService.Create(request, CancellationToken.None);
 
-        return Ok("Question created");
+        return Ok(questionId);
     }
 
     [HttpGet]
