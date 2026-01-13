@@ -1,8 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
 using DevQuestions.Application.Abstractions;
 using DevQuestions.Application.Questions;
-using DevQuestions.Application.Questions.AddAnswer;
-using DevQuestions.Application.Questions.CreateQuestion;
+using DevQuestions.Application.Questions.Features.AddAnswer;
+using DevQuestions.Application.Questions.Features.CreateQuestion;
 using DevQuestions.Contracts.Questions;
 using DevQuestions.Presenters.ResponseExtensions;
 using Microsoft.AspNetCore.Mvc;
