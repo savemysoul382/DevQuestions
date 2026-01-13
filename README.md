@@ -18,3 +18,4 @@ Project Clean Archotecture infrastructure
 - Repository
 
 - Scrutor
+- FluentValidation
