@@ -16,3 +16,5 @@ Project Clean Archotecture infrastructure
 - Unit of work
 - Handler, Command architecture
 - Repository
+
+- Scrutor
