@@ -14,8 +14,11 @@ Project Clean Archotecture infrastructure
 
 - Result pattern
 - Unit of work
-- Handler, Command architecture
 - Repository
+- Handler, Command architecture
+- IQuery и IQueryHandler
+- Паттерн CQS
+
 
 - Scrutor
 - FluentValidation
