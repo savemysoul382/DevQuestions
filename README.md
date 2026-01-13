@@ -1,4 +1,4 @@
 # DevQuestions
-Project infrastructure
+Project Clean Archotecture infrastructure
 
 
