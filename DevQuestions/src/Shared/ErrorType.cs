@@ -5,6 +5,11 @@ namespace Shared;
 public enum ErrorType
 {
     /// <summary>
+    /// Неизвестная ошибка
+    /// </summary>
+    NONE,
+
+    /// <summary>
     /// Ошбика валидации
     /// </summary>
     VALIDATION,

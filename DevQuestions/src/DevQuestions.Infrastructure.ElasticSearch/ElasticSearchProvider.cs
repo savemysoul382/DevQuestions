@@ -1,5 +1,7 @@
-﻿using DevQuestions.Application.FullTextSearch;
+﻿using CSharpFunctionalExtensions;
+using DevQuestions.Application.FullTextSearch;
 using DevQuestions.Domain.Questions;
+using Shared;
 
 namespace DevQuestions.Infrastructure.ElasticSearch;
 
@@ -11,9 +13,18 @@ public class ElasticSearchProvider : ISearchProvider
         throw new NotImplementedException();
     }
 
-    public async Task IndexQuestionAsync(Question question)
+    public async Task<UnitResult<Failure>> IndexQuestionAsync(Question question)
     {
         await Task.Delay(500);
-        throw new NotImplementedException();
+        try
+        {
+            // _elastic.Search();
+        }
+        catch (Exception e)
+        {
+            return Error.Failure("search.error", message: e.Message).ToFailure();
+        }
+
+        return UnitResult.Success<Failure>();
     }
 }

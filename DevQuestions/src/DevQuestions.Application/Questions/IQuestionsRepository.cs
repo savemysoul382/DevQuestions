@@ -1,4 +1,6 @@
-﻿using DevQuestions.Domain.Questions;
+﻿using CSharpFunctionalExtensions;
+using DevQuestions.Domain.Questions;
+using Shared;
 
 namespace DevQuestions.Application.Questions
 {
@@ -10,8 +12,8 @@ namespace DevQuestions.Application.Questions
 
         Task<Guid> DeleteAsync(Guid questionId, CancellationToken cancellationToken);
 
-        Task<Question?> GetByIdAsync(Guid questionId, CancellationToken cancellationToken);
+        Task<Result<Question?, Failure>> GetByIdAsync(Guid questionId, CancellationToken cancellationToken);
 
-        Task<int> GetOpenUserQuestionsASync(Guid userId, CancellationToken cancellationToken);
+        Task<int> GetOpenUserQuestionsAsync(Guid userId, CancellationToken cancellationToken);
     }
 }

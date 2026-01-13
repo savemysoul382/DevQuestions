@@ -1,11 +1,18 @@
 ﻿// DevQuestions.Application
 
+using CSharpFunctionalExtensions;
 using Shared;
 
 namespace DevQuestions.Application.Questions.Fails;
 
 public partial class Errors
 {
+    public static class General
+    {
+        public static Error NotFound(Guid id) =>
+            Error.Failure(code: "record.not.found", message: $"Запись по id - {id} не найдена.");
+    }
+
     public static class Question
     {
         public static Error ToManyQuestions => Error.Failure(
@@ -26,5 +33,14 @@ public partial class Errors
         public static Error QuestionContentIsRequired => Error.Validation(
             code: "Question.Content.IsRequired",
             message: "The question content is required.");
+    }
+
+    public static Failure NotEnoughRating()
+    {
+        var error = Error.Failure(
+            code: "not.enough.rating",
+            message: "Недостаточно рейтинга.");
+
+        return error;
     }
 }
