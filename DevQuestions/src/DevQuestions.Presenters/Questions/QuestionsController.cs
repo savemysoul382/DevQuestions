@@ -1,5 +1,6 @@
 ﻿using DevQuestions.Application.Questions;
 using DevQuestions.Contracts.Questions;
+using DevQuestions.Presenters.ResponseExtensions;
 using Microsoft.AspNetCore.Mvc;
 
 // ReSharper disable InconsistentNaming
@@ -19,9 +20,8 @@ public class QuestionsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateQuestionDto request, CancellationToken cancellationToken)
     {
-        Guid questionId = await _questionService.Create(request, CancellationToken.None);
-
-        return Ok(questionId);
+        var result = await _questionService.Create(questionDto: request, cancellationToken: CancellationToken.None);
+        return result.IsFailure ? result.Error.ToResponse() : Ok(value: result.Value);
     }
 
     [HttpGet]

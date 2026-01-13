@@ -4,22 +4,27 @@ namespace DevQuestions.Domain.Questions;
 
 public class Answer
 {
-    public Answer(Guid user_id, string text, Question question)
+    public Answer(Guid id, Guid userId, string text, Guid questionId)
     {
-        UserId = user_id;
+        Id = id;
+        UserId = userId;
         Text = text;
-        Question = question;
+        QuestionId = questionId;
+        Rating = 0;
     }
 
     public Guid Id { get; set; }
 
-    public required Guid UserId { get; set; }
+    public Guid UserId { get; set; }
 
-    public required string Text { get; set; }
+    public string Text { get; set; }
 
-    public required Question Question { get; set; }
+    public Question Question { get; set; } = null!;
 
-    public required Answer Parent { get; set; }
+    public Guid QuestionId { get; set; }
 
+    // public required Answer Parent { get; set; }
     private List<Guid> Comments { get; set; } = [];
+
+    public long Rating { get; set; }
 }

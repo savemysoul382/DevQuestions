@@ -4,6 +4,8 @@ namespace Shared
 {
     public record Error
     {
+        public static Error None { get; } = new Error(code: string.Empty, message: string.Empty, type: ErrorType.NONE, null);
+
         public string Code { get; }
         public string Message { get; }
 
@@ -39,6 +41,11 @@ namespace Shared
         public static Error Failure(string? code, string message)
         {
             return new Error(code: code ?? "failure", message: message, type: ErrorType.FAILURE);
+        }
+
+        public Failure ToFailure()
+        {
+            return new Failure(this);
         }
     }
 }
