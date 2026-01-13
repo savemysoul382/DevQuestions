@@ -5,7 +5,7 @@ using System.Data;
 namespace DevQuestions.Application.Database;
 
 /// <summary>
-/// Unit of work
+/// Unit of work.
 /// </summary>
 public interface ITransactionManager
 {

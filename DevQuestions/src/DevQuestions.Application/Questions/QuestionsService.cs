@@ -2,7 +2,6 @@
 using DevQuestions.Application.Communication;
 using DevQuestions.Application.Database;
 using DevQuestions.Application.Extensions;
-using DevQuestions.Application.FullTextSearch;
 using DevQuestions.Application.Questions.Fails;
 using DevQuestions.Contracts.Questions;
 using DevQuestions.Domain.Questions;
@@ -14,28 +13,28 @@ using Error = Shared.Error;
 
 namespace DevQuestions.Application.Questions;
 
+/// <summary>
+/// Остался для примера.
+/// </summary>
 public class QuestionsService : IQuestionsService
 {
     private readonly IQuestionsRepository _questionsRepository;
     private readonly ILogger<QuestionsService> _logger;
     private readonly IValidator<CreateQuestionDto> _createQuestionDtoValidator;
     private readonly IValidator<AddAnswerDto> _addAnswerDtoValidator;
-    private readonly ITransactionManager _transactionManager;
-    private readonly IUsersCommunicationService _usersService;
 
+    // private readonly IUsersCommunicationService _usersService;
     public QuestionsService(
         IQuestionsRepository questionsRepository,
         IValidator<CreateQuestionDto> createQuestionDtoValidator,
         ILogger<QuestionsService> logger,
-        IValidator<AddAnswerDto> addAnswerDtoValidator,
-        ITransactionManager transactionManager,
-        IUsersCommunicationService usersService)
+        IValidator<AddAnswerDto> addAnswerDtoValidator) // IUsersCommunicationService usersService
     {
         _questionsRepository = questionsRepository;
         _createQuestionDtoValidator = createQuestionDtoValidator;
         _addAnswerDtoValidator = addAnswerDtoValidator;
-        _transactionManager = transactionManager;
-        _usersService = usersService;
+
+        // _usersService = usersService;
         _logger = logger;
     }
 
@@ -100,20 +99,19 @@ public class QuestionsService : IQuestionsService
             return validationResult.ToErrors();
         }
 
-        var userRatingResult = await _usersService.GetUserRatingAsync(userId: addAnswerDto.UserId, cancellationToken: cancellationToken);
-        if (userRatingResult.IsFailure)
-        {
-            return userRatingResult.Error;
-        }
+        // var userRatingResult = await _usersService.GetUserRatingAsync(userId: addAnswerDto.UserId, cancellationToken: cancellationToken);
+        // if (userRatingResult.IsFailure)
+        // {
+        //    return userRatingResult.Error;
+        // }
 
-        if (userRatingResult.Value <= 0)
-        {
-            _logger.LogError("User with ID {UserId} has has no rating.", addAnswerDto.UserId);
-            return Errors.NotEnoughRating();
-        }
+        // if (userRatingResult.Value <= 0)
+        // {
+        //    _logger.LogError("User with ID {UserId} has has no rating.", addAnswerDto.UserId);
+        //    return Errors.NotEnoughRating();
+        // }
 
-        var transaction = await _transactionManager.BeginTransactionAsync(cancellationToken: cancellationToken);
-
+        // var transaction = await _transactionManager.BeginTransactionAsync(cancellationToken: cancellationToken);
         (_, bool isFailure, Question? question, Failure? error) = await _questionsRepository.GetByIdAsync(questionId: questionId, cancellationToken: cancellationToken);
 
         if (isFailure)
@@ -131,8 +129,7 @@ public class QuestionsService : IQuestionsService
 
         Guid addAnswer = await _questionsRepository.SaveAsync(question!, cancellationToken: cancellationToken);
 
-        transaction.Commit();
-
+        // transaction.Commit();
         _logger.LogInformation("Answer with ID {answerId} added to question {QuestionId} successfully.", answer.Id, questionId);
 
         return answer.Id;

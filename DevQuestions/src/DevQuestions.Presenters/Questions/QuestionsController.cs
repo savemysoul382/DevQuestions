@@ -1,7 +1,12 @@
-﻿using DevQuestions.Application.Questions;
+﻿using CSharpFunctionalExtensions;
+using DevQuestions.Application.Abstractions;
+using DevQuestions.Application.Questions;
+using DevQuestions.Application.Questions.AddAnswer;
+using DevQuestions.Application.Questions.CreateQuestion;
 using DevQuestions.Contracts.Questions;
 using DevQuestions.Presenters.ResponseExtensions;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 
 // ReSharper disable InconsistentNaming
 namespace DevQuestions.Presenters.Questions;
@@ -18,10 +23,15 @@ public class QuestionsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateQuestionDto request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Create(
+        [FromServices] ICommandHandler<Guid, CreateQuestionCommand> createQuestionHandler,
+        [FromBody] CreateQuestionDto request,
+        CancellationToken cancellationToken)
     {
-        var result = await _questionService.Create(questionDto: request, cancellationToken: CancellationToken.None);
-        return result.IsFailure ? result.Error.ToResponse() : Ok(value: result.Value);
+        var command = new CreateQuestionCommand(QuestionDto: request);
+
+        Result<Guid, Failure> questionIdResult = await createQuestionHandler.HandleAsync(command: command, cancellationToken: CancellationToken.None);
+        return questionIdResult.IsFailure ? questionIdResult.Error.ToResponse() : Ok(value: questionIdResult.Value);
     }
 
     [HttpGet]
@@ -67,12 +77,14 @@ public class QuestionsController : ControllerBase
 
     [HttpPost("{questionId:guid}/answers")]
     public async Task<IActionResult> AddAnswer(
+        [FromServices] ICommandHandler<Guid, AddAnswerCommand> addAnswerHandler,
         [FromRoute] Guid questionId,
         [FromBody] AddAnswerDto request,
         CancellationToken cancellationToken)
     {
-        await Task.Delay(500);
+        var command = new AddAnswerCommand(QuestionId: questionId, AddAnswerDto: request);
 
-        return Ok("Answer added");
+        Result<Guid, Failure> handleResult = await addAnswerHandler.HandleAsync(command: command, cancellationToken: cancellationToken);
+        return handleResult.IsFailure ? handleResult.Error.ToResponse() : Ok(value: handleResult.Value);
     }
 }
