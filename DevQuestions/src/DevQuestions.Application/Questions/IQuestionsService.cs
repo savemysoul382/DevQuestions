@@ -1,7 +1,7 @@
 ﻿// DevQuestions.Application
 
 using CSharpFunctionalExtensions;
-using DevQuestions.Contracts.Questions;
+using DevQuestions.Contracts.Questions.Dtos;
 using Shared;
 
 namespace DevQuestions.Application.Questions;

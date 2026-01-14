@@ -8,7 +8,7 @@ namespace DevQuestions.Infrastructure.Postgres
     {
         public static IServiceCollection AddPostgresInfrastructure(this IServiceCollection services)
         {
-            services.AddDbContext<QuestionsDbContext>();
+            services.AddDbContext<QuestionsReadDbContext>();
 
             services.AddScoped<IQuestionsRepository, QuestionsEfCoreRepository>();
 

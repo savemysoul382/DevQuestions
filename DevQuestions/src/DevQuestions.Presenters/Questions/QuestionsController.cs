@@ -3,7 +3,9 @@ using DevQuestions.Application.Abstractions;
 using DevQuestions.Application.Questions;
 using DevQuestions.Application.Questions.Features.AddAnswer;
 using DevQuestions.Application.Questions.Features.CreateQuestion;
-using DevQuestions.Contracts.Questions;
+using DevQuestions.Application.Questions.Features.GetQuestionsWithFilters;
+using DevQuestions.Contracts.Questions.Dtos;
+using DevQuestions.Contracts.Questions.Responses;
 using DevQuestions.Presenters.ResponseExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
@@ -19,12 +21,12 @@ public class QuestionsController : ControllerBase
 
     public QuestionsController(IQuestionsService questionService)
     {
-        _questionService = questionService;
+        this._questionService = questionService;
     }
 
     [HttpPost]
     public async Task<IActionResult> Create(
-        [FromServices] ICommandHandler<Guid, CreateQuestionCommand> createQuestionHandler,
+        [FromServices] IHandler<Guid, CreateQuestionCommand> createQuestionHandler,
         [FromBody] CreateQuestionDto request,
         CancellationToken cancellationToken)
     {
@@ -35,10 +37,15 @@ public class QuestionsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] GetQuestionsDto request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Get(
+        [FromServices] IHandler<QuestionResponse, GetQuestionsWithFiltersCommand> getQuestionsHandler,
+        [FromQuery] GetQuestionsDto request,
+        CancellationToken cancellationToken)
     {
-        await Task.Delay(500);
-        return Ok();
+        var command = new GetQuestionsWithFiltersCommand(GetQuestionsDto: request);
+
+        Result<QuestionResponse, Failure> response = await getQuestionsHandler.HandleAsync(command: command, cancellationToken: cancellationToken);
+        return response.IsFailure ? response.Error.ToResponse() : Ok(value: response.Value);
     }
 
     [HttpGet("{questionId:guid}")]
@@ -77,7 +84,7 @@ public class QuestionsController : ControllerBase
 
     [HttpPost("{questionId:guid}/answers")]
     public async Task<IActionResult> AddAnswer(
-        [FromServices] ICommandHandler<Guid, AddAnswerCommand> addAnswerHandler,
+        [FromServices] IHandler<Guid, AddAnswerCommand> addAnswerHandler,
         [FromRoute] Guid questionId,
         [FromBody] AddAnswerDto request,
         CancellationToken cancellationToken)
