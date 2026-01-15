@@ -3,7 +3,7 @@
 using CSharpFunctionalExtensions;
 using DevQuestions.Application.Abstractions;
 using DevQuestions.Application.Extensions;
-using DevQuestions.Contracts.Questions;
+using DevQuestions.Contracts.Questions.Dtos;
 using DevQuestions.Domain.Questions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
@@ -11,7 +11,7 @@ using Shared;
 
 namespace DevQuestions.Application.Questions.Features.AddAnswer;
 
-public class AddAnswerHandler : ICommandHandler<Guid, AddAnswerCommand>
+public class AddAnswerCommandHandler : ICommandHandler<Guid, AddAnswerCommand>
 {
     private readonly IQuestionsRepository _questionsRepository;
     private readonly IValidator<AddAnswerDto> _addAnswerDtoValidator;
@@ -19,7 +19,7 @@ public class AddAnswerHandler : ICommandHandler<Guid, AddAnswerCommand>
 
     // private readonly ITransactionManager _transactionManager;
     // private readonly IUsersCommunicationService _usersService;
-    public AddAnswerHandler(
+    public AddAnswerCommandHandler(
 
         // ITransactionManager transactionManager,
         // IUsersCommunicationService usersService,

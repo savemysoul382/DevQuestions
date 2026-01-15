@@ -4,7 +4,7 @@ using CSharpFunctionalExtensions;
 using DevQuestions.Application.Abstractions;
 using DevQuestions.Application.Extensions;
 using DevQuestions.Application.Questions.Fails;
-using DevQuestions.Contracts.Questions;
+using DevQuestions.Contracts.Questions.Dtos;
 using DevQuestions.Domain.Questions;
 using FluentValidation;
 using FluentValidation.Results;
@@ -13,26 +13,26 @@ using Shared;
 
 namespace DevQuestions.Application.Questions.Features.CreateQuestion;
 
-public class CreateQuestionHandler : ICommandHandler<Guid, CreateQuestionCommand>
+public class CreateQuestionCommandHandler : ICommandHandler<Guid, CreateQuestionCommand>
 {
     private readonly IQuestionsRepository _questionsRepository;
     private readonly IValidator<CreateQuestionDto> _createQuestionDtoValidator;
     private readonly ILogger<QuestionsService> _logger;
 
-    public CreateQuestionHandler(
+    public CreateQuestionCommandHandler(
         IQuestionsRepository questionsRepository,
         IValidator<CreateQuestionDto> createQuestionDtoValidator,
         ILogger<QuestionsService> logger)
     {
-        _questionsRepository = questionsRepository;
-        _logger = logger;
-        _createQuestionDtoValidator = createQuestionDtoValidator;
+        this._questionsRepository = questionsRepository;
+        this._logger = logger;
+        this._createQuestionDtoValidator = createQuestionDtoValidator;
     }
 
     public async Task<Result<Guid, Failure>> HandleAsync(CreateQuestionCommand command, CancellationToken cancellationToken)
     {
         // проверка валидности
-        ValidationResult validationResult = await _createQuestionDtoValidator.ValidateAsync(instance: command.QuestionDto, cancellation: cancellationToken);
+        ValidationResult validationResult = await this._createQuestionDtoValidator.ValidateAsync(instance: command.QuestionDto, cancellation: cancellationToken);
         if (!validationResult.IsValid)
         {
             return validationResult.ToErrors();
@@ -50,7 +50,7 @@ public class CreateQuestionHandler : ICommandHandler<Guid, CreateQuestionCommand
         int calculateResultValue = calculateResult.Value;
 
         // валидация бизнес логики
-        int openUserQuestionsCount = await _questionsRepository
+        int openUserQuestionsCount = await this._questionsRepository
             .GetOpenUserQuestionsAsync(userId: command.QuestionDto.UserId, cancellationToken: CancellationToken.None);
 
         if (openUserQuestionsCount >= 3)
@@ -70,10 +70,10 @@ public class CreateQuestionHandler : ICommandHandler<Guid, CreateQuestionCommand
             command.QuestionDto.TagIds.ToList());
 
         // сохранение в БД
-        await _questionsRepository.AddAsync(question: question, cancellationToken: CancellationToken.None);
+        await this._questionsRepository.AddAsync(question: question, cancellationToken: CancellationToken.None);
 
         // логирование об успешном или неуспешном сохранении
-        _logger.LogInformation("Question with ID {QuestionId} created successfully.", questionId);
+        this._logger.LogInformation("Question with ID {QuestionId} created successfully.", questionId);
 
         return questionId;
     }

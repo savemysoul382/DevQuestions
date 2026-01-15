@@ -2,10 +2,11 @@
 using Dapper;
 using DevQuestions.Application.Database;
 using DevQuestions.Application.Questions;
+using DevQuestions.Application.Questions.Features.GetQuestionsWithFilters;
 using DevQuestions.Domain.Questions;
 using Shared;
 
-namespace DevQuestions.Infrastructure.Postgres.Repositories;
+namespace DevQuestions.Infrastructure.Postgres.Questions;
 
 public class QuestionsSqlRepository : IQuestionsRepository
 {
@@ -28,12 +29,12 @@ public class QuestionsSqlRepository : IQuestionsRepository
             sql,
             new
             {
-                Id = question.Id,
-                Title = question.Title,
-                Text = question.Text,
-                UserId = question.UserId,
+                question.Id,
+                question.Title,
+                question.Text,
+                question.UserId,
                 Tags = question.Tags.ToArray(),
-                Status = question.Status,
+                question.Status,
             });
 
         return question.Id;
@@ -53,6 +54,13 @@ public class QuestionsSqlRepository : IQuestionsRepository
     }
 
     public async Task<Result<Question?, Failure>> GetByIdAsync(Guid questionId, CancellationToken cancellationToken)
+    {
+        await Task.Delay(500);
+
+        throw new NotImplementedException();
+    }
+
+    public async Task<(IReadOnlyList<Question> Questions, long Count)> GetQuestionWithFiltersAsync(GetQuestionsWithFiltersQuery query, CancellationToken cancellationToken)
     {
         await Task.Delay(500);
 

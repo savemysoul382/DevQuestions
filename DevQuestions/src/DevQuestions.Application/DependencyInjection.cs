@@ -13,12 +13,17 @@ namespace DevQuestions.Application
 
             services.AddScoped<IQuestionsService, QuestionsService>();
 
-            // services.AddScoped<ICommandHandler<Guid, CreateQuestionCommand>, CreateQuestionHandler>();
-            // services.AddScoped<ICommandHandler<Guid, AddAnswerCommand>, AddAnswerHandler>();
+            // services.AddScoped<ICommandHandler<Guid, CreateQuestionCommand>, CreateQuestionCommandHandler>();
+            // services.AddScoped<ICommandHandler<Guid, AddAnswerCommand>, AddAnswerCommandHandler>();
             var assembly = typeof(DependencyInjection).Assembly;
 
             services.Scan(scan => scan.FromAssemblies(assembly)
                 .AddClasses(classes => classes.AssignableToAny(typeof(ICommandHandler<,>), typeof(ICommandHandler<>)))
+                .AsSelfWithInterfaces()
+                .WithScopedLifetime());
+
+            services.Scan(scan => scan.FromAssemblies(assembly)
+                .AddClasses(classes => classes.AssignableToAny(typeof(IQueryHandler<,>)))
                 .AsSelfWithInterfaces()
                 .WithScopedLifetime());
 
