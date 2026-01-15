@@ -11,7 +11,7 @@ using Shared;
 
 namespace DevQuestions.Application.Questions.Features.AddAnswer;
 
-public class AddAnswerHandler : IHandler<Guid, AddAnswerCommand>
+public class AddAnswerCommandHandler : ICommandHandler<Guid, AddAnswerCommand>
 {
     private readonly IQuestionsRepository _questionsRepository;
     private readonly IValidator<AddAnswerDto> _addAnswerDtoValidator;
@@ -19,7 +19,7 @@ public class AddAnswerHandler : IHandler<Guid, AddAnswerCommand>
 
     // private readonly ITransactionManager _transactionManager;
     // private readonly IUsersCommunicationService _usersService;
-    public AddAnswerHandler(
+    public AddAnswerCommandHandler(
 
         // ITransactionManager transactionManager,
         // IUsersCommunicationService usersService,

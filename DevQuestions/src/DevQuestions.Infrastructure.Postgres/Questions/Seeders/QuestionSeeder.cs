@@ -1,4 +1,6 @@
-﻿namespace DevQuestions.Infrastructure.Postgres.Seeders;
+﻿using DevQuestions.Infrastructure.Postgres.Questions;
+
+namespace DevQuestions.Infrastructure.Postgres.Questions.Seeders;
 
 public class QuestionSeeder : ISeeder
 {
@@ -6,7 +8,7 @@ public class QuestionSeeder : ISeeder
 
     public QuestionSeeder(QuestionsReadDbContext readDbContext)
     {
-        this._readDbContext = readDbContext;
+        _readDbContext = readDbContext;
     }
 
     public async Task SeedAsync()

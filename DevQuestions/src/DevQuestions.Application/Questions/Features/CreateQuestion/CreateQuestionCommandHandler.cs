@@ -13,13 +13,13 @@ using Shared;
 
 namespace DevQuestions.Application.Questions.Features.CreateQuestion;
 
-public class CreateQuestionHandler : IHandler<Guid, CreateQuestionCommand>
+public class CreateQuestionCommandHandler : ICommandHandler<Guid, CreateQuestionCommand>
 {
     private readonly IQuestionsRepository _questionsRepository;
     private readonly IValidator<CreateQuestionDto> _createQuestionDtoValidator;
     private readonly ILogger<QuestionsService> _logger;
 
-    public CreateQuestionHandler(
+    public CreateQuestionCommandHandler(
         IQuestionsRepository questionsRepository,
         IValidator<CreateQuestionDto> createQuestionDtoValidator,
         ILogger<QuestionsService> logger)

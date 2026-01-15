@@ -1,5 +1,7 @@
 ﻿using DevQuestions.Application.Questions;
-using DevQuestions.Infrastructure.Postgres.Repositories;
+using DevQuestions.Application.Tags;
+using DevQuestions.Infrastructure.Postgres.Questions;
+using DevQuestions.Infrastructure.Postgres.Tags;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DevQuestions.Infrastructure.Postgres
@@ -11,6 +13,8 @@ namespace DevQuestions.Infrastructure.Postgres
             services.AddDbContext<QuestionsReadDbContext>();
 
             services.AddScoped<IQuestionsRepository, QuestionsEfCoreRepository>();
+            services.AddScoped<IQuestionsReadDbContext, QuestionsReadDbContext>();
+            services.AddScoped<ITagsReadDbContext, TagsReadDbContext>();
 
             return services;
         }

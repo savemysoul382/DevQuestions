@@ -5,4 +5,4 @@ using DevQuestions.Contracts.Questions.Dtos;
 
 namespace DevQuestions.Application.Questions.Features.GetQuestionsWithFilters;
 
-public record GetQuestionsWithFiltersCommand(GetQuestionsDto GetQuestionsDto) : ICommand;
+public record GetQuestionsWithFiltersQuery(GetQuestionsDto GetQuestionsDto) : IQuery;

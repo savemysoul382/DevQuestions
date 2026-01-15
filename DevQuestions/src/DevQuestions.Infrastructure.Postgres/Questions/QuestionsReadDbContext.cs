@@ -2,7 +2,7 @@
 using DevQuestions.Domain.Questions;
 using Microsoft.EntityFrameworkCore;
 
-namespace DevQuestions.Infrastructure.Postgres;
+namespace DevQuestions.Infrastructure.Postgres.Questions;
 
 public class QuestionsReadDbContext : DbContext, IQuestionsReadDbContext
 {
