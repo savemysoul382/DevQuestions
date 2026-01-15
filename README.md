@@ -14,6 +14,7 @@ Project Clean Archotecture infrastructure
 - Modular monolith
 - Clean Architecture
 - Vertical Slice Architecture
+- Feature Slice Architecture
 
 ## Patterns and Methodologies
 - Result pattern
