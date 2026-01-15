@@ -7,6 +7,7 @@ Project Clean Archotecture infrastructure
 - Web API
 - Scrutor
 - FluentValidation
+- Dapper
 
 ## Architecture
 - Monolith
