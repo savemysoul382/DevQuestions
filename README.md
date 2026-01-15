@@ -1,24 +1,24 @@
 # DevQuestions
 Project Clean Archotecture infrastructure
 
-##
+## Tech
 - .NET 9
 - EF Core
 - Web API
+- Scrutor
+- FluentValidation
 
+## Architecture
 - Monolith
 - Modular monolith
-
 - Clean Architecture
 - Vertical Slice Architecture
 
+## Patterns and Methodologies
 - Result pattern
 - Unit of work
 - Repository
-- Handler, Command architecture
+- Handler и CommandHandler
 - IQuery и IQueryHandler
-- Паттерн CQS
+- CQS
 
-
-- Scrutor
-- FluentValidation
