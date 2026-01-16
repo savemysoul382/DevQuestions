@@ -1,7 +1,7 @@
-﻿using DevQuestions.Application;
-using DevQuestions.Application.FullTextSearch;
-using DevQuestions.Infrastructure.ElasticSearch;
-using DevQuestions.Infrastructure.Postgres;
+﻿using Infrastructure.ElasticSearch;
+using Questions.Application;
+using Questions.Infrastructure.Postgres;
+using Shared.FullTextSearch;
 
 namespace DevQuestions.Web
 {

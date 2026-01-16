@@ -12,12 +12,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DevQuestions.Application\DevQuestions.Application.csproj" />
-    <ProjectReference Include="..\DevQuestions.Contracts\DevQuestions.Contracts.csproj" />
-    <ProjectReference Include="..\DevQuestions.Domain\DevQuestions.Domain.csproj" />
-    <ProjectReference Include="..\DevQuestions.Infrastructure.ElasticSearch\DevQuestions.Infrastructure.ElasticSearch.csproj" />
-    <ProjectReference Include="..\DevQuestions.Infrastructure.Postgres\DevQuestions.Infrastructure.Postgres.csproj" />
-    <ProjectReference Include="..\DevQuestions.Presenters\DevQuestions.Presenters.csproj" />
+    <ProjectReference Include="..\Core\Framework\Framework.csproj" />
+    <ProjectReference Include="..\Core\Infrastructure\Infrastructure.ElasticSearch\Infrastructure.ElasticSearch.csproj" />
+    <ProjectReference Include="..\Questions\Questions.Application\Questions.Application.csproj" />
+    <ProjectReference Include="..\Questions\Questions.Contracts\Questions.Contracts.csproj" />
+    <ProjectReference Include="..\Questions\Questions.Domain\Questions.Domain.csproj" />
+    <ProjectReference Include="..\Questions\Questions.Infrastructure.Postgres\Questions.Infrastructure.Postgres.csproj" />
+    <ProjectReference Include="..\Questions\Questions.Presenters\Questions.Presenters.csproj" />
+    <ProjectReference Include="..\Tags\Tags\Tags.csproj" />
   </ItemGroup>
 
 </Project>

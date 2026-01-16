@@ -1,10 +1,14 @@
 ﻿using DevQuestions.Web;
 using DevQuestions.Web.Middlewares;
 using DevQuestions.Web.Seeders;
+using Framework;
+using Tags;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args: args);
 
 builder.Services.AddProgramDependencies();
+
+builder.Services.AddEndpoints(TagsAssembly.Assembly);
 
 var app = builder.Build();
 
@@ -18,4 +22,7 @@ if (app.Environment.IsDevelopment())
 
 app.MapControllers();
 await app.UseSeedersAsync();
+
+app.MapEndpoints();
+
 app.Run();
