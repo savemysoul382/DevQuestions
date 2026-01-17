@@ -5,4 +5,4 @@ using Shared.Abstractions;
 
 namespace Questions.Application.Features.AddAnswer;
 
-public record AddAnswerCommand(Guid QuestionId, AddAnswerDto AddAnswerDto) : ICommand;
+public record AddAnswerCommand(Guid QuestionId, AddAnswerDto AddAnswerDto) : ICommand<Guid>;

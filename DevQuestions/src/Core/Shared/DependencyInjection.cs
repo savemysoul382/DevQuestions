@@ -17,7 +17,7 @@ namespace Shared
             var assembly = typeof(DependencyInjection).Assembly;
 
             services.Scan(scan => scan.FromAssemblies(assembly)
-                .AddClasses(classes => classes.AssignableToAny(typeof(ICommandHandler<,>), typeof(ICommandHandler<>)))
+                .AddClasses(classes => classes.AssignableToAny(typeof(ICommandHandler<,>)))
                 .AsSelfWithInterfaces()
                 .WithScopedLifetime());
 

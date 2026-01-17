@@ -11,7 +11,7 @@ using Shared.Extensions;
 
 namespace Questions.Application.Features.AddAnswer;
 
-public class AddAnswerCommandHandler : ICommandHandler<Guid, AddAnswerCommand>
+public class AddAnswerCommandHandler : ICommandHandler<AddAnswerCommand, Guid>
 {
     private readonly IQuestionsRepository _questionsRepository;
     private readonly IValidator<AddAnswerDto> _addAnswerDtoValidator;
@@ -37,7 +37,7 @@ public class AddAnswerCommandHandler : ICommandHandler<Guid, AddAnswerCommand>
         _logger = logger;
     }
 
-    public async Task<Result<Guid, Failure>> HandleAsync(
+    public async Task<Result<Guid, Failure>> Handle(
         AddAnswerCommand command,
         CancellationToken cancellationToken)
     {

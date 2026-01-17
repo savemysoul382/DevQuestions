@@ -20,7 +20,7 @@ public sealed class GetByIds
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
             // У Get метода нет Body, тк нет доступа к Body, а id может быть много и строка query будет огромной
-            // app.MapGet("tags", handler: HandleAsync);
+            // app.MapGet("tags", handler: Handle);
             // в документации пометить, что этот метод возвращает список id
             app.MapPost(
                 "tags/ids",
@@ -29,7 +29,7 @@ public sealed class GetByIds
                     IQueryHandler<IReadOnlyList<TagDto>, GetByIdsQuery> handler,
                     CancellationToken ct) =>
                 {
-                    var result = await handler.HandleAsync(new GetByIdsQuery(Dto: dto), cancellationToken: ct);
+                    var result = await handler.Handle(new GetByIdsQuery(Dto: dto), cancellationToken: ct);
 
                     return Results.Ok(value: result);
                 });
@@ -46,7 +46,7 @@ public sealed class GetByIds
         }
 
         // [FromBody] можем не писать, тк возмется из тела автоматически
-        public async Task<IReadOnlyList<TagDto>> HandleAsync(
+        public async Task<IReadOnlyList<TagDto>> Handle(
             GetByIdsQuery query,
             CancellationToken ct)
         {

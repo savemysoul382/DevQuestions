@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using Shared.Abstractions;
+using Questions.Application.Behaviors;
 
 namespace Questions.Application
 {
@@ -16,16 +16,24 @@ namespace Questions.Application
             // services.AddScoped<ICommandHandler<Guid, AddAnswerCommand>, AddAnswerCommandHandler>();
             var assembly = typeof(DependencyInjection).Assembly;
 
-            services.Scan(scan => scan.FromAssemblies(assembly)
-                .AddClasses(classes => classes.AssignableToAny(typeof(ICommandHandler<,>), typeof(ICommandHandler<>)))
-                .AsSelfWithInterfaces()
-                .WithScopedLifetime());
+            services.AddMediatR(config =>
+            {
+                config.RegisterServicesFromAssembly(assembly: assembly);
 
-            services.Scan(scan => scan.FromAssemblies(assembly)
-                .AddClasses(classes => classes.AssignableToAny(typeof(IQueryHandler<,>)))
-                .AsSelfWithInterfaces()
-                .WithScopedLifetime());
+                config.AddOpenBehavior(typeof(ValidationBehavior<,>));
 
+                // config.AddOpenBehavior(typeof(TracingBehavior<,>)); идут по цепочке, может быть сколько угодно
+            });
+
+            // services.Scan(scan => scan.FromAssemblies(assembly)
+            //    .AddClasses(classes => classes.AssignableToAny(typeof(ICommandHandler<,>), typeof(ICommandHandler<>)))
+            //    .AsSelfWithInterfaces()
+            //    .WithScopedLifetime());
+
+            // services.Scan(scan => scan.FromAssemblies(assembly)
+            //    .AddClasses(classes => classes.AssignableToAny(typeof(IQueryHandler<,>)))
+            //    .AsSelfWithInterfaces()
+            //    .WithScopedLifetime());
             return services;
         }
     }

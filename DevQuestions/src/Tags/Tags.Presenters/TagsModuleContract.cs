@@ -24,11 +24,11 @@ public class TagsModuleContract : ITagsContract
 
     public async Task CreateTag(CreateTagDto dto)
     {
-        await Create.HandleAsync(dto, _dbContext);
+        await Create.Handle(dto, _dbContext);
     }
 
     public async Task<IReadOnlyList<TagDto>> GetByIds(GetByIdsDto dto)
     {
-        return await _handler.HandleAsync(new GetByIdsQuery(dto));
+        return await _handler.Handle(new GetByIdsQuery(dto));
     }
 }

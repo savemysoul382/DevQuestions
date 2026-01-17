@@ -16,11 +16,11 @@ public sealed class Create
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("tags", handler: HandleAsync);
+            app.MapPost("tags", handler: Handle);
         }
     }
 
-    public static async Task<IResult> HandleAsync(CreateTagDto createTagDto, TagsDbContext tagsDbContext)
+    public static async Task<IResult> Handle(CreateTagDto createTagDto, TagsDbContext tagsDbContext)
     {
         Tag tag = new Tag { Id = Guid.NewGuid(), Name = createTagDto.Name, };
         await tagsDbContext.AddAsync(entity: tag);
@@ -38,7 +38,7 @@ public sealed class Create
            _tagsDbContext = tagsDbContext;
        }
 
-       private async Task<IResult> HandleAsync(CreateTagDto createTagDto, CancellationToken cancellationToken)
+       private async Task<IResult> Handle(CreateTagDto createTagDto, CancellationToken cancellationToken)
        {
            Tag tag = new Tag { Id = Guid.NewGuid(), Name = createTagDto.Name, };
            await tagsDbContext.AddAsync(entity: tag);

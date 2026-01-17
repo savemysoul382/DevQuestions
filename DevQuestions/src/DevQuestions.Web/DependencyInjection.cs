@@ -11,9 +11,8 @@ namespace DevQuestions.Web
         public static IServiceCollection AddProgramDependencies(this IServiceCollection services)
         {
             return services.AddWebDependencies()
-                    .AddQuestionsModule()
-                    .AddTagsModule()
-                    .AddQuestionsModule();
+                .AddQuestionsModule()
+                .AddTagsModule();
         }
 
         private static IServiceCollection AddWebDependencies(this IServiceCollection services)

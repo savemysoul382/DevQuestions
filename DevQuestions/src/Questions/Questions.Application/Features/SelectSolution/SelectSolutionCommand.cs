@@ -6,7 +6,7 @@ namespace Questions.Application.Features.SelectSolution;
 
 // public class SelectSolutionHandler : ICommandHandler<Guid, SelectSolutionCommand>
 // {
-//    public Task<Result<Guid, Failure>> HandleAsync(SelectSolutionCommand command, CancellationToken cancellationToken)
+//    public Task<Result<Guid, Failure>> Handle(SelectSolutionCommand command, CancellationToken cancellationToken)
 //    {
 //        throw new NotImplementedException();
 //    }

@@ -25,7 +25,7 @@ public class GetQuestionsWithFilters : IQueryHandler<QuestionResponse, GetQuesti
         this._questionsDbContext = questionsDbContext;
     }
 
-    public async Task<QuestionResponse> HandleAsync(GetQuestionsWithFiltersQuery query, CancellationToken cancellationToken)
+    public async Task<QuestionResponse> Handle(GetQuestionsWithFiltersQuery query, CancellationToken cancellationToken)
     {
         // Dapper approach example
         // var connection = _connectionFactory.Create();
