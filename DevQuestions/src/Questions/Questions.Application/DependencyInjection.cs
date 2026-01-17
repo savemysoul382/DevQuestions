@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using Questions.Application.Decorators;
 using Shared.Abstractions;
 
 namespace Questions.Application
@@ -26,6 +27,17 @@ namespace Questions.Application
                 .AsSelfWithInterfaces()
                 .WithScopedLifetime());
 
+            // services.AddScoped<I, TestDecorator>(s =>
+            // {
+            //    var a = s.GetRequiredService<A>();
+            //    return new TestDecorator(a);
+            // });
+
+            // services.AddScoped<I, A>();
+            // services.Decorate<I, TestDecorator>();
+            // вызов идёт в обратном порядке, сначала логинг, потом валидация
+            services.TryDecorate(typeof(ICommandHandler<,>), typeof(ValidationDecorator<,>));
+            services.TryDecorate(typeof(ICommandHandler<,>), typeof(LoggingDecorator<,>));
             return services;
         }
     }

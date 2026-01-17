@@ -11,4 +11,13 @@ public static class ValidationExtensions
             message: e.ErrorMessage,
             invalidField: e.PropertyName)).ToArray();
     }
+
+    public static Failure ToErrors(this IEnumerable<ValidationResult> validationResults)
+    {
+        return validationResults.SelectMany(r => r.Errors)
+            .Select(e => Error.Validation(
+                code: e.ErrorCode,
+                message: e.ErrorMessage,
+                invalidField: e.PropertyName)).ToArray();
+    }
 }

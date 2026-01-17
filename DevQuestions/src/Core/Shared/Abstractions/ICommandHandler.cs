@@ -6,6 +6,8 @@ namespace Shared.Abstractions;
 
 public interface ICommand;
 
+public interface IValidation : ICommand;
+
 public interface ICommandHandler<TResponse, in TCommand>
     where TCommand : ICommand
 {

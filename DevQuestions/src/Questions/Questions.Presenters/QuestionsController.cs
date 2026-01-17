@@ -26,8 +26,7 @@ public class QuestionsController : ControllerBase
 
     [HttpPost]
     public async Task<IActionResult> Create(
-        [FromServices] ICommandHandler<Guid,
-            CreateQuestionCommand> createQuestionCommandHandler,
+        [FromServices] ICommandHandler<Guid, CreateQuestionCommand> createQuestionCommandHandler,
         [FromBody] CreateQuestionDto request,
         CancellationToken cancellationToken)
     {
@@ -39,8 +38,7 @@ public class QuestionsController : ControllerBase
 
     [HttpGet]
     public async Task<IActionResult> Get(
-        [FromServices] IQueryHandler<QuestionResponse,
-            GetQuestionsWithFiltersQuery> getQuestionsCommandHandler,
+        [FromServices] IQueryHandler<QuestionResponse, GetQuestionsWithFiltersQuery> getQuestionsCommandHandler,
         [FromQuery] GetQuestionsDto request,
         CancellationToken cancellationToken)
     {
@@ -90,8 +88,7 @@ public class QuestionsController : ControllerBase
 
     [HttpPost("{questionId:guid}/answers")]
     public async Task<IActionResult> AddAnswer(
-        [FromServices] ICommandHandler<Guid,
-            AddAnswerCommand> addAnswerCommandHandler,
+        [FromServices] ICommandHandler<Guid, AddAnswerCommand> addAnswerCommandHandler,
         [FromRoute] Guid questionId,
         [FromBody] AddAnswerDto request,
         CancellationToken cancellationToken)

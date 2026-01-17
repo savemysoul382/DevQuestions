@@ -2,21 +2,18 @@
 
 using CSharpFunctionalExtensions;
 using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
 using Questions.Application.Fails;
 using Questions.Contracts.Dtos;
 using Questions.Domain;
 using Shared;
 using Shared.Abstractions;
-using Shared.Extensions;
 
 namespace Questions.Application.Features.CreateQuestion;
 
 public class CreateQuestionCommandHandler : ICommandHandler<Guid, CreateQuestionCommand>
 {
     private readonly IQuestionsRepository _questionsRepository;
-    private readonly IValidator<CreateQuestionDto> _createQuestionDtoValidator;
     private readonly ILogger<QuestionsService> _logger;
 
     public CreateQuestionCommandHandler(
@@ -26,18 +23,10 @@ public class CreateQuestionCommandHandler : ICommandHandler<Guid, CreateQuestion
     {
         this._questionsRepository = questionsRepository;
         this._logger = logger;
-        this._createQuestionDtoValidator = createQuestionDtoValidator;
     }
 
     public async Task<Result<Guid, Failure>> HandleAsync(CreateQuestionCommand command, CancellationToken cancellationToken)
     {
-        // проверка валидности
-        ValidationResult validationResult = await this._createQuestionDtoValidator.ValidateAsync(instance: command.QuestionDto, cancellation: cancellationToken);
-        if (!validationResult.IsValid)
-        {
-            return validationResult.ToErrors();
-        }
-
         var calculator = new QuestionsService.QuestionCalculator();
 
         Result<int, Failure> calculateResult = calculator.Calculate();
