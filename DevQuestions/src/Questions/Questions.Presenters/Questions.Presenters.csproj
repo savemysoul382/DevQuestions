@@ -11,9 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Infrastructure\Infrastructure.S3\Infrastructure.S3.csproj" />
     <ProjectReference Include="..\Questions.Application\Questions.Application.csproj" />
     <ProjectReference Include="..\Questions.Contracts\Questions.Contracts.csproj" />
     <ProjectReference Include="..\Questions.Domain\Questions.Domain.csproj" />
+    <ProjectReference Include="..\Questions.Infrastructure.Postgres\Questions.Infrastructure.Postgres.csproj" />
   </ItemGroup>
 
 </Project>

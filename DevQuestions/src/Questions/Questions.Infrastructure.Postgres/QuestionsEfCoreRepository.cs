@@ -10,40 +10,40 @@ namespace Questions.Infrastructure.Postgres;
 
 public class QuestionsEfCoreRepository : IQuestionsRepository
 {
-    private readonly QuestionsReadDbContext _readDbContext;
+    private readonly QuestionsDbContext _dbContext;
 
-    public QuestionsEfCoreRepository(QuestionsReadDbContext readDbContext)
+    public QuestionsEfCoreRepository(QuestionsDbContext dbContext)
     {
-        _readDbContext = readDbContext;
+        _dbContext = dbContext;
     }
 
     public async Task<Guid> AddAsync(Question question, CancellationToken cancellationToken)
     {
-        await _readDbContext.Questions.AddAsync(entity: question, cancellationToken: cancellationToken);
-        await _readDbContext.SaveChangesAsync(cancellationToken: cancellationToken);
+        await _dbContext.Questions.AddAsync(entity: question, cancellationToken: cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken: cancellationToken);
         return question.Id;
     }
 
     public async Task<Guid> SaveAsync(Question question, CancellationToken cancellationToken)
     {
-        _readDbContext.Questions.Attach(entity: question);
-        await _readDbContext.SaveChangesAsync(cancellationToken: cancellationToken);
+        _dbContext.Questions.Attach(entity: question);
+        await _dbContext.SaveChangesAsync(cancellationToken: cancellationToken);
         return question.Id;
     }
 
     public async Task<Guid> DeleteAsync(Guid questionId, CancellationToken cancellationToken)
     {
-        Question? question = await _readDbContext.Questions.FirstOrDefaultAsync(q => q.Id == questionId, cancellationToken: cancellationToken);
+        Question? question = await _dbContext.Questions.FirstOrDefaultAsync(q => q.Id == questionId, cancellationToken: cancellationToken);
         if (question == null) throw new ArgumentException("Question not found", nameof(questionId));
 
-        _readDbContext.Questions.Remove(entity: question);
-        await _readDbContext.SaveChangesAsync(cancellationToken: cancellationToken);
+        _dbContext.Questions.Remove(entity: question);
+        await _dbContext.SaveChangesAsync(cancellationToken: cancellationToken);
         return question.Id;
     }
 
     public async Task<Result<Question?, Failure>> GetByIdAsync(Guid questionId, CancellationToken cancellationToken)
     {
-        Question? question = await _readDbContext.Questions
+        Question? question = await _dbContext.Questions
             .Include(q => q.Answers)
             .Include(q => q.Solution)
             .FirstOrDefaultAsync(q => q.Id == questionId, cancellationToken: cancellationToken);
@@ -64,6 +64,6 @@ public class QuestionsEfCoreRepository : IQuestionsRepository
 
     public async Task<int> GetOpenUserQuestionsAsync(Guid userId, CancellationToken cancellationToken)
     {
-        return await _readDbContext.Questions.CountAsync(q => q.UserId == userId && q.Status == QuestionStatus.OPEN, cancellationToken: cancellationToken);
+        return await _dbContext.Questions.CountAsync(q => q.UserId == userId && q.Status == QuestionStatus.OPEN, cancellationToken: cancellationToken);
     }
 }

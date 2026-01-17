@@ -2,11 +2,11 @@
 
 public class QuestionSeeder : ISeeder
 {
-    private readonly QuestionsReadDbContext _readDbContext;
+    private readonly QuestionsDbContext _dbContext;
 
-    public QuestionSeeder(QuestionsReadDbContext readDbContext)
+    public QuestionSeeder(QuestionsDbContext dbContext)
     {
-        _readDbContext = readDbContext;
+        _dbContext = dbContext;
     }
 
     public async Task SeedAsync()

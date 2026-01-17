@@ -4,7 +4,7 @@ using Questions.Domain;
 
 namespace Questions.Infrastructure.Postgres;
 
-public class QuestionsReadDbContext : DbContext, IQuestionsReadDbContext
+public class QuestionsDbContext : DbContext, IQuestionsReadDbContext
 {
     // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     // {
