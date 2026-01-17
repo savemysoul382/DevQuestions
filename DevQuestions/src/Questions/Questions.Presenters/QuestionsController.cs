@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using Framework.ResponseExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Questions.Application;
 using Questions.Application.Features.AddAnswer;
@@ -6,7 +7,6 @@ using Questions.Application.Features.CreateQuestion;
 using Questions.Application.Features.GetQuestionsWithFilters;
 using Questions.Contracts.Dtos;
 using Questions.Contracts.Responses;
-using Questions.Presenters.ResponseExtensions;
 using Shared;
 using Shared.Abstractions;
 

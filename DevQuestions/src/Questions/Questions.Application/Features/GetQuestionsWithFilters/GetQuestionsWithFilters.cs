@@ -5,30 +5,24 @@ using Questions.Contracts.Dtos;
 using Questions.Contracts.Responses;
 using Questions.Domain;
 using Shared.Abstractions;
-using Shared.Database;
-using Tags.Contracts;
-using Tags.Contracts.Dtos;
 
 namespace Questions.Application.Features.GetQuestionsWithFilters;
 
 public class GetQuestionsWithFilters : IQueryHandler<QuestionResponse, GetQuestionsWithFiltersQuery>
 {
     // private readonly IFilesProvider _filesProvider;
-    private readonly ITagsContract _tagsContract;
+    // private readonly ITagsContract _tagsContract;
+    // private readonly ISqlConnectionFactory _connectionFactory;
     private readonly IQuestionsReadDbContext _questionsDbContext;
-    private readonly ISqlConnectionFactory _connectionFactory;
 
     // IFilesProvider filesProvider,
+    // ITagsContract tagsContract,
+    // ISqlConnectionFactory connectionFactory
     public GetQuestionsWithFilters(
-        IQuestionsRepository questionsRepository,
-        IQuestionsReadDbContext questionsDbContext,
-        ITagsContract tagsContract,
-        ISqlConnectionFactory connectionFactory)
+        IQuestionsReadDbContext questionsDbContext)
     {
-        // this._filesProvider = filesProvider;
-        this._tagsContract = tagsContract;
+        // this._filesProvider = filesProvider;  //this._tagsContract = tagsContract; this._connectionFactory = connectionFactory;
         this._questionsDbContext = questionsDbContext;
-        this._connectionFactory = connectionFactory;
     }
 
     public async Task<QuestionResponse> HandleAsync(GetQuestionsWithFiltersQuery query, CancellationToken cancellationToken)
@@ -48,8 +42,7 @@ public class GetQuestionsWithFilters : IQueryHandler<QuestionResponse, GetQuesti
         // var filesDict = await _filesProvider.GetUrlsByIdsAsync(fileIds: screenshotIds, cancellationToken: cancellationToken);
         var questionTags = questions.SelectMany(q => q.Tags);
 
-        var tags = await this._tagsContract.GetByIds(new GetByIdsDto(questionTags.ToArray()));
-
+        // var tags = await this._tagsContract.GetByIds(new GetByIdsDto(questionTags.ToArray()));
         var questionDtos = questions.Select(q => new QuestionDto(
             Id: q.Id,
             Title: q.Title,
@@ -57,7 +50,7 @@ public class GetQuestionsWithFilters : IQueryHandler<QuestionResponse, GetQuesti
             UserId: q.UserId,
             ScreenshotUrl: "из строки справа", // ScreenshotUrl: q.ScreenshotId != null ? filesDict[key: q.ScreenshotId.Value] : null,
             SolutionId: q.Solution?.Id,
-            Tags: tags.Select(t => t.Name),
+            Tags: [], // tags.Select(t => t.Name),
             q.Status.ToRussianString())).ToList();
 
         return new QuestionResponse(Questions: questionDtos, TotalCount: count);

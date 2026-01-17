@@ -1,4 +1,6 @@
-﻿namespace Questions.Infrastructure.Postgres.Seeders;
+﻿using Shared.Database;
+
+namespace Questions.Infrastructure.Postgres.Seeders;
 
 public class QuestionSeeder : ISeeder
 {

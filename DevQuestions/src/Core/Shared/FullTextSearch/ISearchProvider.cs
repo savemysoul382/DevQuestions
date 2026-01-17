@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using Questions.Domain;
 
 namespace Shared.FullTextSearch;
 
