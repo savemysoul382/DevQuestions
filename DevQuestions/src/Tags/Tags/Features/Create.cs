@@ -20,11 +20,30 @@ public sealed class Create
         }
     }
 
-    private static async Task<IResult> HandleAsync(CreateTagDto createTagDto, TagsDbContext tagsDbContext)
+    public static async Task<IResult> HandleAsync(CreateTagDto createTagDto, TagsDbContext tagsDbContext)
     {
         Tag tag = new Tag { Id = Guid.NewGuid(), Name = createTagDto.Name, };
         await tagsDbContext.AddAsync(entity: tag);
 
         return Results.Ok(value: tag.Id);
     }
+
+    /*
+   public sealed class CreateTagHandler : ICommandHandler<>
+   {
+       private readonly TagsDbContext _tagsDbContext;
+
+       public CreateTagHandler(TagsDbContext tagsDbContext)
+       {
+           _tagsDbContext = tagsDbContext;
+       }
+
+       private async Task<IResult> HandleAsync(CreateTagDto createTagDto, CancellationToken cancellationToken)
+       {
+           Tag tag = new Tag { Id = Guid.NewGuid(), Name = createTagDto.Name, };
+           await tagsDbContext.AddAsync(entity: tag);
+
+           return Results.Ok(value: tag.Id);
+       }
+   } */
 }

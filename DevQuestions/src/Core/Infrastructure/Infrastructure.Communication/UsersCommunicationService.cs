@@ -1,10 +1,6 @@
 ﻿// DevQuestions.Infrastructure.Communication
 
-using CSharpFunctionalExtensions;
-using DevQuestions.Application.Communication;
-using Shared;
-
-namespace DevQuestions.Infrastructure.Communication;
+namespace Infrastructure.Communication;
 
 public class UsersCommunicationService : IUsersCommunicationService
 {

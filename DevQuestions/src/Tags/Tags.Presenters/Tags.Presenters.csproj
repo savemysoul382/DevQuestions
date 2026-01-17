@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tags.Contracts\Tags.Contracts.csproj" />
+    <ProjectReference Include="..\Tags\Tags.csproj" />
   </ItemGroup>
 
 </Project>

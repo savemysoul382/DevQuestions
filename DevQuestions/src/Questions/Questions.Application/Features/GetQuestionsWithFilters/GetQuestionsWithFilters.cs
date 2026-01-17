@@ -6,7 +6,6 @@ using Questions.Contracts.Responses;
 using Questions.Domain;
 using Shared.Abstractions;
 using Shared.Database;
-using System.Linq;
 using Tags.Contracts;
 using Tags.Contracts.Dtos;
 
@@ -20,7 +19,6 @@ public class GetQuestionsWithFilters : IQueryHandler<QuestionResponse, GetQuesti
     private readonly ISqlConnectionFactory _connectionFactory;
 
     // IFilesProvider filesProvider,
-
     public GetQuestionsWithFilters(
         IQuestionsRepository questionsRepository,
         IQuestionsReadDbContext questionsDbContext,
@@ -51,7 +49,6 @@ public class GetQuestionsWithFilters : IQueryHandler<QuestionResponse, GetQuesti
         var questionTags = questions.SelectMany(q => q.Tags);
 
         var tags = await this._tagsContract.GetByIds(new GetByIdsDto(questionTags.ToArray()));
-
 
         var questionDtos = questions.Select(q => new QuestionDto(
             Id: q.Id,

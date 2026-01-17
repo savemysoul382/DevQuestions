@@ -8,6 +8,7 @@ namespace Shared
     {
         public static IServiceCollection AddSharedDependencies(this IServiceCollection services)
         {
+            // В модульном монолите реализацию валидации и командхендлеры каждый модуль должен делать у себя.
             services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
 
             // services.AddScoped<IQuestionsService, QuestionsService>();
