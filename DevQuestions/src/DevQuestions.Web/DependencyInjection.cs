@@ -1,7 +1,8 @@
-﻿using DevQuestions.Application;
-using DevQuestions.Application.FullTextSearch;
-using DevQuestions.Infrastructure.ElasticSearch;
-using DevQuestions.Infrastructure.Postgres;
+﻿using Infrastructure.ElasticSearch;
+using Questions.Application;
+using Questions.Infrastructure.Postgres;
+using Questions.Presenters;
+using Shared.FullTextSearch;
 
 namespace DevQuestions.Web
 {
@@ -9,7 +10,8 @@ namespace DevQuestions.Web
     {
         public static IServiceCollection AddProgramDependencies(this IServiceCollection services)
         {
-            return services.AddWebDependencies()
+            return services.AddQuestionsModule()
+                .AddWebDependencies()
                 .AddApplication()
                 .AddPostgresInfrastructure()
                 .AddSearchProvider();
